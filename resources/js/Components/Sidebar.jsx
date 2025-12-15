@@ -9,16 +9,51 @@ import {
 } from 'lucide-react'
 
 const menus = [
-  { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { label: 'Inventory', href: '/inventory', icon: Boxes },
-  { label: 'Production', href: '/production', icon: Factory },
-  { label: 'Purchasing', href: '/purchasing', icon: ShoppingCart },
-  { label: 'Finance', href: '/finance', icon: Wallet },
-  { label: 'Users', href: '/users', icon: Users },
+  {
+    label: 'Dashboard',
+    href: '/dashboard',
+    icon: LayoutDashboard,
+    roles: ['admin', 'manager', 'staff'],
+  },
+  {
+    label: 'Inventory',
+    href: '/inventory',
+    icon: Boxes,
+    roles: ['admin', 'staff'],
+  },
+  {
+    label: 'Production',
+    href: '/production',
+    icon: Factory,
+    roles: ['admin', 'manager'],
+  },
+  {
+    label: 'Purchasing',
+    href: '/purchasing',
+    icon: ShoppingCart,
+    roles: ['admin', 'staff'],
+  },
+  {
+    label: 'Finance',
+    href: '/finance',
+    icon: Wallet,
+    roles: ['admin', 'manager'],
+  },
+  {
+    label: 'Users',
+    href: '/users',
+    icon: Users,
+    roles: ['admin'],
+  },
 ]
 
 export default function Sidebar() {
-  const { url } = usePage()
+  const { url, props } = usePage()
+  const role = props.auth?.user?.roles?.[0]?.name ?? 'staff'
+
+  const visibleMenus = menus.filter(menu =>
+    !menu.roles || menu.roles.includes(role)
+  )
 
   return (
     <aside className="
@@ -45,7 +80,7 @@ export default function Sidebar() {
 
       {/* MENU */}
       <nav className="flex-1 px-3 space-y-1">
-        {menus.map(menu => {
+        {visibleMenus.map(menu => {
           const Icon = menu.icon
           const active = url.startsWith(menu.href)
 
@@ -73,7 +108,9 @@ export default function Sidebar() {
               <Icon
                 className={`
                   w-4 h-4
-                  ${active ? 'text-white' : 'text-slate-500 group-hover:text-white'}
+                  ${active
+                    ? 'text-white'
+                    : 'text-slate-500 group-hover:text-white'}
                 `}
               />
 
