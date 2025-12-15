@@ -1,54 +1,240 @@
-# ERP Tekstil – PT. Indotaichen Textile Industry
+# ERP Tekstil  
+**PT. Indotaichen Textile Industry**
 
-Sistem ERP Tekstil berbasis web untuk mengelola proses:
-- Purchasing
-- Inventory & Multi Warehouse
-- Production
-- Sales
-- Finance
+Sistem **Enterprise Resource Planning (ERP)** berbasis web untuk industri tekstil,  
+dirancang untuk mengelola proses operasional secara terintegrasi mulai dari:
 
-Dikembangkan menggunakan:
-- Laravel
-- Inertia.js (React)
-- MySQL
-- Tailwind CSS
+- Purchasing  
+- Inventory & Multi Warehouse  
+- Production  
+- Sales  
+- Finance  
+
+Aplikasi ini dikembangkan sebagai **sistem ERP internal** dengan fokus pada:
+- Akurasi data  
+- Keterlacakan proses  
+- Kontrol operasional  
 
 ---
 
 ## ⚠️ Status Proyek
 
-**Status: DEVELOPMENT**
+**Status: DEVELOPMENT (Dalam Pengembangan Aktif)**
 
-Sistem ini masih dalam tahap pengembangan aktif.
-Fitur dan struktur dapat berubah seiring proses implementasi.
+Sistem ini masih dalam tahap pengembangan.  
+Struktur database, fitur, dan alur bisnis dapat berubah seiring proses implementasi.
 
-Belum direkomendasikan untuk penggunaan produksi.
-
----
-
-## Modul (Progress)
-
-- [x] Authentication & Login
-- [x] UI Layout (Sidebar, Topbar, Dashboard)
-- [x] Database Migration
-- [x] User & Role Seeder
-- [ ] RBAC Middleware
-- [ ] Master Data
-- [ ] Purchasing
-- [ ] Inventory
-- [ ] Production
-- [ ] Sales
-- [ ] Finance
+> ❗ **Belum direkomendasikan untuk penggunaan produksi.**
 
 ---
 
-## Setup Development
+## 🎯 Tujuan Pengembangan
 
-```bash
+- Mensimulasikan sistem ERP industri tekstil secara end-to-end  
+- Menyediakan platform pembelajaran dan pengembangan sistem informasi  
+- Menjadi dasar implementasi ERP skala kecil–menengah  
+- Digunakan sebagai bahan akademik (skripsi / tugas akhir / portofolio)  
+
+---
+
+## 🧱 Tech Stack
+
+### Backend
+- **Laravel**
+- PHP 8.2+
+- MySQL
+
+### Frontend
+- **Inertia.js (React)**
+- Tailwind CSS
+- Lucide React (Icons)
+
+### Tooling
+- Composer
+- Node.js & NPM
+- Git
+
+---
+
+## 🧩 Modul Sistem (Progress)
+
+| Modul | Status |
+|------|-------|
+| Authentication & Login | ✅ Selesai |
+| UI Layout (Sidebar, Topbar, Dashboard) | ✅ Selesai |
+| Database Migration | ✅ Selesai |
+| User & Role Seeder | ✅ Selesai |
+| RBAC (Role Based Access Control) | ⏳ Planned |
+| Master Data | ⏳ Planned |
+| Purchasing | ⏳ Planned |
+| Inventory & Warehouse | ⏳ Planned |
+| Production | ⏳ Planned |
+| Sales | ⏳ Planned |
+| Finance | ⏳ Planned |
+
+---
+
+## 👥 Role Pengguna (Awal)
+
+| Role | Deskripsi |
+|----|----|
+| Admin | Mengelola sistem dan user |
+| Manager | Approval dan monitoring |
+| Staff | Operasional harian |
+
+> Role ini masih **dasar** dan akan dikembangkan pada tahap implementasi RBAC.
+
+---
+
+## 🔐 Akun Default (Development)
+
+Setelah menjalankan seeder, akun berikut tersedia:
+
+| Role | Email | Password |
+|----|----|----|
+| Admin | admin@indotaichen.test | password |
+| Manager | manager@indotaichen.test | password |
+| Staff | staff@indotaichen.test | password |
+
+> ⚠️ **Hanya untuk development.**  
+> Jangan gunakan password ini di production.
+
+---
+
+## 📁 Struktur Repository
+erp-tekstil/
+├─ app/            # Backend logic (Laravel)
+├─ database/       # Migration & Seeder
+├─ resources/
+│  ├─ js/          # React (Inertia)
+│  └─ css/         # Tailwind CSS
+├─ routes/         # Web routes
+├─ public/
+├─ docs/           # Dokumentasi (SRS, ERD)
+├─ README.md       # Dokumentasi utama
+├─ composer.json
+├─ package.json
+└─ .gitignore
+
+---
+
+🚀 Cara Menjalankan Project (Development)
+1. Clone Repository
+git clone <repository-url>
+cd erp-tekstil
+
+2. Install Dependency Backend
 composer install
+
+3. Install Dependency Frontend
 npm install
+
+4. Setup Environment
 cp .env.example .env
 php artisan key:generate
+
+
+Atur koneksi database di file .env:
+
+DB_DATABASE=erp_tekstil
+DB_USERNAME=root
+DB_PASSWORD=
+
+5. Migrasi Database & Seeder
 php artisan migrate --seed
-npm run dev
+
+
+Jika ingin reset total:
+
+php artisan migrate:fresh --seed
+
+6. Jalankan Aplikasi
+
+Terminal 1
+
 php artisan serve
+
+
+Terminal 2
+
+npm run dev
+
+
+Akses aplikasi melalui browser:
+
+http://127.0.0.1:8000
+
+---
+
+🧭 Alur Penggunaan Sistem (Saat Ini)
+
+User membuka aplikasi
+
+Login menggunakan akun yang tersedia
+
+Sistem menampilkan:
+
+Dashboard
+
+Informasi user
+
+Navigasi modul (belum aktif semua)
+
+Modul lanjutan akan diaktifkan secara bertahap
+
+🖥️ Dashboard
+
+Dashboard saat ini menampilkan:
+
+Informasi user yang login
+
+Role aktif
+
+Context card (Inventory, Production, Approval)
+
+Placeholder enterprise untuk KPI & grafik
+
+Dashboard akan dikembangkan setelah data real tersedia.
+
+🧠 Prinsip Pengembangan
+
+Modular & bertahap
+
+Tidak menampilkan data palsu
+
+UI tenang, profesional, enterprise-grade
+
+Fokus pada proses bisnis tekstil
+
+Tidak over-engineering di tahap awal
+
+📌 Catatan Penting
+
+File .env tidak boleh di-commit
+
+Password default hanya untuk development
+
+UI dan database distabilkan sebelum modul inti
+
+Perubahan besar dicatat per tahap pengembangan
+
+🛠️ Rencana Tahap Selanjutnya
+
+Tahap berikutnya akan difokuskan pada:
+
+RBAC (Hak akses menu & fitur)
+
+Master Data (Warehouse, Product, Material)
+
+Inventory & Stock Mutation Engine
+
+Purchasing (PR → PO → GR)
+
+Production Workflow
+
+Finance (AP / AR)
+
+📄 Lisensi
+
+Proyek ini dikembangkan untuk kebutuhan akademik dan simulasi sistem.
+Belum memiliki lisensi open-source resmi.
