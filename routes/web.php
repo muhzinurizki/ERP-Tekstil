@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Master\WarehouseController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
@@ -21,24 +22,8 @@ Route::middleware('auth')->get('/dashboard', function () {
     return \Inertia\Inertia::render('Dashboard');
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/users', function () {
-        return 'User management (admin only)';
-    });
-});
-
-Route::middleware(['auth', 'role:manager'])->group(function () {
-    Route::get('/approvals', function () {
-        return 'Approval page (manager only)';
-    });
+Route::middleware(['auth', 'role:admin'])->prefix('master')->group(function () {
+    Route::resource('warehouses', WarehouseController::class);
 });
 
 require __DIR__ . '/auth.php';
-
-Route::middleware(['auth', 'role:admin'])->get('/admin-test', function () {
-    return 'INI HALAMAN ADMIN';
-});
-
-Route::middleware(['auth', 'role:manager'])->get('/manager-test', function () {
-    return 'INI HALAMAN MANAGER';
-});

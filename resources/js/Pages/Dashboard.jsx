@@ -11,7 +11,9 @@ import {
 export default function Dashboard() {
   const { auth } = usePage().props
   const user = auth.user
-  const role = user.roles?.[0]?.name ?? 'staff'
+
+  // SINGLE SOURCE OF TRUTH
+  const role = auth.role?.toLowerCase() ?? 'staff'
 
   return (
     <AppLayout>
@@ -20,6 +22,7 @@ export default function Dashboard() {
         {/* ================= WELCOME SECTION ================= */}
         <section className="bg-white border border-gray-200 rounded-2xl p-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
             {/* LEFT */}
             <div>
               <p className="text-sm text-gray-500">
@@ -53,11 +56,13 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+
           </div>
         </section>
 
         {/* ================= CONTEXT CARDS ================= */}
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
           <ContextCard
             title="Role Aktif"
             value={role}
@@ -65,6 +70,7 @@ export default function Dashboard() {
             description="Hak akses sistem"
           />
 
+          {/* ADMIN */}
           {role === 'admin' && (
             <>
               <ContextCard
@@ -82,6 +88,7 @@ export default function Dashboard() {
             </>
           )}
 
+          {/* MANAGER */}
           {role === 'manager' && (
             <>
               <ContextCard
@@ -99,6 +106,7 @@ export default function Dashboard() {
             </>
           )}
 
+          {/* STAFF */}
           {role === 'staff' && (
             <>
               <ContextCard
@@ -115,10 +123,12 @@ export default function Dashboard() {
               />
             </>
           )}
+
         </section>
 
         {/* ================= PLACEHOLDER ENTERPRISE ================= */}
         <section className="bg-white border border-dashed border-gray-300 rounded-2xl p-10 text-center">
+
           {role === 'admin' && (
             <p className="text-sm text-gray-500">
               Ringkasan sistem, statistik master data, dan konfigurasi
@@ -139,6 +149,7 @@ export default function Dashboard() {
               operasional akan ditampilkan di sini.
             </p>
           )}
+
         </section>
 
       </div>

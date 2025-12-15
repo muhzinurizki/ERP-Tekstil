@@ -8,52 +8,91 @@ import {
   Users,
 } from 'lucide-react'
 
-const menus = [
+const sidebarSections = [
   {
-    label: 'Dashboard',
-    href: '/dashboard',
-    icon: LayoutDashboard,
-    roles: ['admin', 'manager', 'staff'],
+    title: 'Main',
+    items: [
+      {
+        label: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutDashboard,
+        roles: ['admin', 'manager', 'staff'],
+      },
+    ],
   },
   {
-    label: 'Inventory',
-    href: '/inventory',
-    icon: Boxes,
-    roles: ['admin', 'staff'],
+    title: 'Master Data',
+    items: [
+      {
+        label: 'Warehouse',
+        href: '/master/warehouses',
+        icon: Boxes,
+        roles: ['admin'],
+      },
+      {
+        label: 'Raw Material',
+        href: '/master/materials',
+        icon: Boxes,
+        roles: ['admin'],
+      },
+      {
+        label: 'Machine',
+        href: '/master/machines',
+        icon: Factory,
+        roles: ['admin'],
+      },
+    ],
   },
   {
-    label: 'Production',
-    href: '/production',
-    icon: Factory,
-    roles: ['admin', 'manager'],
+    title: 'Operasional',
+    items: [
+      {
+        label: 'Inventory',
+        href: '/inventory',
+        icon: Boxes,
+        roles: ['admin', 'staff'],
+      },
+      {
+        label: 'Production',
+        href: '/production',
+        icon: Factory,
+        roles: ['admin', 'manager'],
+      },
+      {
+        label: 'Purchasing',
+        href: '/purchasing',
+        icon: ShoppingCart,
+        roles: ['admin', 'staff'],
+      },
+    ],
   },
   {
-    label: 'Purchasing',
-    href: '/purchasing',
-    icon: ShoppingCart,
-    roles: ['admin', 'staff'],
+    title: 'Finance',
+    items: [
+      {
+        label: 'Finance',
+        href: '/finance',
+        icon: Wallet,
+        roles: ['admin', 'manager'],
+      },
+    ],
   },
   {
-    label: 'Finance',
-    href: '/finance',
-    icon: Wallet,
-    roles: ['admin', 'manager'],
-  },
-  {
-    label: 'Users',
-    href: '/users',
-    icon: Users,
-    roles: ['admin'],
+    title: 'Administration',
+    items: [
+      {
+        label: 'Users',
+        href: '/users',
+        icon: Users,
+        roles: ['admin'],
+      },
+    ],
   },
 ]
 
 export default function Sidebar() {
   const { url, props } = usePage()
-  const role = props.auth?.user?.roles?.[0]?.name ?? 'staff'
-
-  const visibleMenus = menus.filter(menu =>
-    !menu.roles || menu.roles.includes(role)
-  )
+  const role = props.auth?.role?.toLowerCase() ?? 'staff'
 
   return (
     <aside className="
@@ -73,49 +112,63 @@ export default function Sidebar() {
         </span>
       </div>
 
-      {/* SECTION */}
-      <div className="px-6 pt-6 pb-2 text-xs uppercase tracking-widest text-slate-500">
-        Main Modules
-      </div>
-
       {/* MENU */}
-      <nav className="flex-1 px-3 space-y-1">
-        {visibleMenus.map(menu => {
-          const Icon = menu.icon
-          const active = url.startsWith(menu.href)
+      <nav className="flex-1 px-3 py-4 space-y-6">
+        {sidebarSections.map(section => {
+          const visibleItems = section.items.filter(item =>
+            item.roles.includes(role)
+          )
+
+          if (visibleItems.length === 0) return null
 
           return (
-            <Link
-              key={menu.label}
-              href={menu.href}
-              className={`
-                group relative flex items-center gap-3
-                px-4 py-3 rounded-xl text-sm
-                transition-all duration-200
-                ${active
-                  ? 'bg-white/10 text-white'
-                  : 'text-slate-400 hover:bg-white/5 hover:text-white'}
-              `}
-            >
-              {/* Active indicator */}
-              {active && (
-                <span className="
-                  absolute left-0 top-1/2 -translate-y-1/2
-                  h-6 w-1 rounded-r bg-white
-                " />
-              )}
+            <div key={section.title}>
+              {/* SECTION TITLE */}
+              <div className="px-3 mb-2 text-xs uppercase tracking-widest text-slate-500">
+                {section.title}
+              </div>
 
-              <Icon
-                className={`
-                  w-4 h-4
-                  ${active
-                    ? 'text-white'
-                    : 'text-slate-500 group-hover:text-white'}
-                `}
-              />
+              {/* ITEMS */}
+              <div className="space-y-1">
+                {visibleItems.map(item => {
+                  const Icon = item.icon
+                  const active = url.startsWith(item.href)
 
-              <span>{menu.label}</span>
-            </Link>
+                  return (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className={`
+                        group relative flex items-center gap-3
+                        px-4 py-3 rounded-xl text-sm
+                        transition-all duration-200
+                        ${active
+                          ? 'bg-white/10 text-white'
+                          : 'text-slate-400 hover:bg-white/5 hover:text-white'}
+                      `}
+                    >
+                      {active && (
+                        <span className="
+                          absolute left-0 top-1/2 -translate-y-1/2
+                          h-6 w-1 rounded-r bg-white
+                        " />
+                      )}
+
+                      <Icon
+                        className={`
+                          w-4 h-4
+                          ${active
+                            ? 'text-white'
+                            : 'text-slate-500 group-hover:text-white'}
+                        `}
+                      />
+
+                      <span>{item.label}</span>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
           )
         })}
       </nav>
