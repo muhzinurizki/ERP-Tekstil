@@ -1,182 +1,227 @@
-import { Link, usePage } from '@inertiajs/react'
+import { Link, usePage } from "@inertiajs/react";
 import {
-  LayoutDashboard,
-  Boxes,
-  Factory,
-  ShoppingCart,
-  Wallet,
-  Users,
-} from 'lucide-react'
+    LayoutDashboard,
+    Boxes,
+    Factory,
+    ShoppingCart,
+    Wallet,
+    Users,
+    TagIcon,
+    Truck,
+} from "lucide-react";
 
 const sidebarSections = [
-  {
-    title: 'Main',
-    items: [
-      {
-        label: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutDashboard,
-        roles: ['admin', 'manager', 'staff'],
-      },
-    ],
-  },
-  {
-    title: 'Master Data',
-    items: [
-      {
-        label: 'Warehouse',
-        href: '/master/warehouses',
-        icon: Boxes,
-        roles: ['admin'],
-      },
-      {
-        label: 'Raw Material',
-        href: '/master/materials',
-        icon: Boxes,
-        roles: ['admin'],
-      },
-      {
-        label: 'Machine',
-        href: '/master/machines',
-        icon: Factory,
-        roles: ['admin'],
-      },
-    ],
-  },
-  {
-    title: 'Operasional',
-    items: [
-      {
-        label: 'Inventory',
-        href: '/inventory',
-        icon: Boxes,
-        roles: ['admin', 'staff'],
-      },
-      {
-        label: 'Production',
-        href: '/production',
-        icon: Factory,
-        roles: ['admin', 'manager'],
-      },
-      {
-        label: 'Purchasing',
-        href: '/purchasing',
-        icon: ShoppingCart,
-        roles: ['admin', 'staff'],
-      },
-    ],
-  },
-  {
-    title: 'Finance',
-    items: [
-      {
-        label: 'Finance',
-        href: '/finance',
-        icon: Wallet,
-        roles: ['admin', 'manager'],
-      },
-    ],
-  },
-  {
-    title: 'Administration',
-    items: [
-      {
-        label: 'Users',
-        href: '/users',
-        icon: Users,
-        roles: ['admin'],
-      },
-    ],
-  },
-]
+    {
+        title: "Main",
+        items: [
+            {
+                label: "Dashboard",
+                href: "/dashboard",
+                icon: LayoutDashboard,
+                roles: ["admin", "manager", "staff"],
+            },
+        ],
+    },
+    {
+        title: "Master Data",
+        items: [
+            {
+                label: "Warehouse",
+                href: "/master/warehouses",
+                icon: Boxes,
+                roles: ["admin"],
+            },
+            {
+                label: "Material Category",
+                href: "/master/material-categories",
+                icon: TagIcon,
+                roles: ["admin", "manager"],
+            },
+            {
+                label: "Raw Material",
+                href: "/master/raw-materials",
+                icon: Boxes,
+                roles: ["admin"],
+            },
+            {
+                label: "Supplier",
+                href: "/master/suppliers",
+                icon: Truck,
+                roles: ["admin", "manager"],
+            },
+            {
+                label: "Machine",
+                href: "/master/machines",
+                icon: Factory,
+                roles: ["admin"],
+            },
+        ],
+    },
+    {
+        title: "Operasional",
+        items: [
+            {
+                label: "Inventory",
+                href: "/inventory",
+                icon: Boxes,
+                roles: ["admin", "staff"],
+            },
+            {
+                label: "Production",
+                href: "/production",
+                icon: Factory,
+                roles: ["admin", "manager"],
+            },
+            {
+                label: "Purchasing",
+                href: "/purchasing",
+                icon: ShoppingCart,
+                roles: ["admin", "staff"],
+            },
+        ],
+    },
+    {
+        title: "Finance",
+        items: [
+            {
+                label: "Finance",
+                href: "/finance",
+                icon: Wallet,
+                roles: ["admin", "manager"],
+            },
+        ],
+    },
+    {
+        title: "Administration",
+        items: [
+            {
+                label: "Users",
+                href: "/users",
+                icon: Users,
+                roles: ["admin"],
+            },
+        ],
+    },
+];
 
 export default function Sidebar() {
-  const { url, props } = usePage()
-  const role = props.auth?.role?.toLowerCase() ?? 'staff'
+    const { url, props } = usePage();
+    const role = props.auth?.role?.toLowerCase() ?? "staff";
 
-  return (
-    <aside className="
+    return (
+        <aside
+            className="
       w-64 min-h-screen
-      bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900
+      bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950
       text-slate-200
       flex flex-col
-      shadow-[4px_0_24px_rgba(0,0,0,0.25)]
-    ">
-      {/* BRAND */}
-      <div className="h-20 px-6 flex flex-col justify-center border-b border-slate-900">
-        <span className="text-xs uppercase tracking-[0.25em] text-slate-500">
-          Enterprise System
-        </span>
-        <span className="text-xl font-semibold tracking-wide mt-1">
-          ERP Tekstil
-        </span>
-      </div>
-
-      {/* MENU */}
-      <nav className="flex-1 px-3 py-4 space-y-6">
-        {sidebarSections.map(section => {
-          const visibleItems = section.items.filter(item =>
-            item.roles.includes(role)
-          )
-
-          if (visibleItems.length === 0) return null
-
-          return (
-            <div key={section.title}>
-              {/* SECTION TITLE */}
-              <div className="px-3 mb-2 text-xs uppercase tracking-widest text-slate-500">
-                {section.title}
-              </div>
-
-              {/* ITEMS */}
-              <div className="space-y-1">
-                {visibleItems.map(item => {
-                  const Icon = item.icon
-                  const active = url.startsWith(item.href)
-
-                  return (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className={`
-                        group relative flex items-center gap-3
-                        px-4 py-3 rounded-xl text-sm
-                        transition-all duration-200
-                        ${active
-                          ? 'bg-white/10 text-white'
-                          : 'text-slate-400 hover:bg-white/5 hover:text-white'}
-                      `}
-                    >
-                      {active && (
-                        <span className="
-                          absolute left-0 top-1/2 -translate-y-1/2
-                          h-6 w-1 rounded-r bg-white
-                        " />
-                      )}
-
-                      <Icon
-                        className={`
-                          w-4 h-4
-                          ${active
-                            ? 'text-white'
-                            : 'text-slate-500 group-hover:text-white'}
-                        `}
-                      />
-
-                      <span>{item.label}</span>
-                    </Link>
-                  )
-                })}
-              </div>
+      shadow-lg
+    "
+        >
+            {/* BRAND */}
+            <div className="h-16 px-6 flex items-center border-b border-slate-700">
+                <div className="flex items-center space-x-3">
+                    <div className="bg-indigo-600 p-2 rounded-lg">
+                        <Factory className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                        <span className="text-xs uppercase tracking-[0.15em] text-slate-400 font-medium">
+                            ERP TEXTILE
+                        </span>
+                        <h1 className="text-lg font-bold text-white tracking-wide">
+                            Sistem
+                        </h1>
+                    </div>
+                </div>
             </div>
-          )
-        })}
-      </nav>
 
-      {/* FOOTER */}
-      <div className="px-6 py-4 border-t border-slate-900 text-xs text-slate-500">
-        PT. Indotaichen Textile Industry
-      </div>
-    </aside>
-  )
+            {/* MENU */}
+            <nav className="flex-1 px-3 py-5 space-y-6 overflow-y-auto">
+                {sidebarSections.map((section) => {
+                    const visibleItems = section.items.filter((item) =>
+                        item.roles.includes(role)
+                    );
+
+                    if (visibleItems.length === 0) return null;
+
+                    return (
+                        <div key={section.title}>
+                            {/* SECTION TITLE */}
+                            <div className="px-3 mb-2 text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                                {section.title}
+                            </div>
+
+                            {/* ITEMS */}
+                            <div className="space-y-1">
+                                {visibleItems.map((item) => {
+                                    const Icon = item.icon;
+                                    const active = url.startsWith(item.href);
+
+                                    return (
+                                        <Link
+                                            key={item.label}
+                                            href={item.href}
+                                            className={`
+                        group relative flex items-center gap-3
+                        px-4 py-2.5 rounded-lg text-sm
+                        transition-all duration-200
+                        ${
+                            active
+                                ? "bg-indigo-600/20 text-white shadow-sm"
+                                : "text-slate-400 hover:bg-slate-700/50 hover:text-white"
+                        }
+                      `}
+                                        >
+                                            <div
+                                                className={`
+                          flex items-center justify-center
+                          w-8 h-8 rounded-lg
+                          ${
+                              active
+                                  ? "bg-indigo-600 text-white"
+                                  : "bg-slate-700/50 text-slate-400 group-hover:bg-indigo-500/20 group-hover:text-indigo-300"
+                          }
+                        `}
+                                            >
+                                                <Icon className="w-4 h-4" />
+                                            </div>
+
+                                            <span
+                                                className={`${
+                                                    active
+                                                        ? "font-medium"
+                                                        : "font-normal"
+                                                }`}
+                                            >
+                                                {item.label}
+                                            </span>
+
+                                            {active && (
+                                                <span
+                                                    className="
+                          absolute left-0 top-0 bottom-0
+                          w-1 rounded-r-lg bg-indigo-500
+                        "
+                                                />
+                                            )}
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    );
+                })}
+            </nav>
+
+            {/* FOOTER */}
+            <div className="px-6 py-4 border-t border-slate-700">
+                <p className="text-xs text-slate-500 leading-relaxed">
+                    PT. Indotaichen Textile Industry
+                </p>
+                <p className="text-xs text-slate-600 mt-1">
+                    v1.0.0 · ERP System
+                </p>
+            </div>
+        </aside>
+    );
 }

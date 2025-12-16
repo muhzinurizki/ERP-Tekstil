@@ -1,23 +1,23 @@
 import AppLayout from '@/Layouts/AppLayout'
 import { Link, useForm } from '@inertiajs/react'
 
-export default function WarehouseCreate() {
-  const { data, setData, post, processing, errors } = useForm({
-    name: '',
-    location: '',
+export default function WarehouseEdit({ warehouse }) {
+  const { data, setData, put, processing, errors } = useForm({
+    name: warehouse.name || '',
+    location: warehouse.location || '',
   })
 
   function submit(e) {
     e.preventDefault()
-    post('/master/warehouses')
+    put(`/master/warehouses/${warehouse.id}`)
   }
 
   return (
     <AppLayout>
       <div className="max-w-3xl mx-auto">
         <div className="bg-gradient-to-r from-slate-800 to-slate-900 text-white rounded-xl p-6 mb-6">
-          <h1 className="text-xl font-semibold">Tambah Warehouse Baru</h1>
-          <p className="text-slate-300 mt-1">Silakan isi informasi warehouse dengan lengkap</p>
+          <h1 className="text-xl font-semibold">Edit Warehouse</h1>
+          <p className="text-slate-300 mt-1">Ubah informasi warehouse sesuai kebutuhan</p>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
@@ -32,7 +32,6 @@ export default function WarehouseCreate() {
                     className="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition duration-200"
                     value={data.name}
                     onChange={e => setData('name', e.target.value)}
-                    placeholder="Masukkan nama warehouse"
                   />
                   {errors.name && (
                     <div className="text-sm text-red-600 mt-1">
@@ -49,7 +48,6 @@ export default function WarehouseCreate() {
                     className="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition duration-200"
                     value={data.location}
                     onChange={e => setData('location', e.target.value)}
-                    placeholder="Masukkan lokasi warehouse"
                   />
                 </div>
               </div>
@@ -66,7 +64,7 @@ export default function WarehouseCreate() {
                   disabled={processing}
                   className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-70 transition-colors duration-200 shadow-sm font-medium"
                 >
-                  {processing ? 'Menyimpan...' : 'Simpan'}
+                  {processing ? 'Menyimpan...' : 'Update'}
                 </button>
               </div>
             </form>
