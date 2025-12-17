@@ -8,6 +8,7 @@ import {
     Users,
     TagIcon,
     Truck,
+    Building2,
 } from "lucide-react";
 
 const sidebarSections = [
@@ -44,16 +45,22 @@ const sidebarSections = [
                 roles: ["admin"],
             },
             {
+                label: "Unit of Measure",
+                href: "/master/units",
+                icon: TagIcon,
+                roles: ["admin", "manager"],
+            },
+            {
                 label: "Supplier",
                 href: "/master/suppliers",
                 icon: Truck,
                 roles: ["admin", "manager"],
             },
             {
-                label: "Machine",
-                href: "/master/machines",
-                icon: Factory,
-                roles: ["admin"],
+                label: "Customer",
+                href: "/master/customers",
+                icon: Building2, // lucide-react
+                roles: ["admin", "manager"],
             },
         ],
     },
@@ -61,33 +68,50 @@ const sidebarSections = [
         title: "Operasional",
         items: [
             {
-                label: "Inventory",
-                href: "/inventory",
-                icon: Boxes,
-                roles: ["admin", "staff"],
-            },
-            {
-                label: "Production",
-                href: "/production",
-                icon: Factory,
-                roles: ["admin", "manager"],
-            },
-            {
-                label: "Purchasing",
-                href: "/purchasing",
+                label: "Purchase Request",
+                href: "/purchasing/purchase-requests",
                 icon: ShoppingCart,
                 roles: ["admin", "staff"],
             },
         ],
     },
     {
-        title: "Finance",
+        title: "Inventory",
         items: [
             {
-                label: "Finance",
-                href: "/finance",
-                icon: Wallet,
+                label: "Stock Overview",
+                href: "/inventory/stocks",
+                icon: Boxes,
+                roles: ["admin", "manager", "staff"],
+            },
+            {
+                label: "Stock Adjustment",
+                href: "/inventory/stocks/adjust",
+                icon: Boxes,
+                roles: ["admin", "staff"],
+            },
+            {
+                label: "Stock Movement",
+                href: "/inventory/stocks/history",
+                icon: Boxes,
+                roles: ["admin", "manager", "staff"],
+            },
+        ],
+    },
+    {
+        title: "Purchasing",
+        items: [
+            {
+                label: "Purchase Orders",
+                href: "/purchasing/purchase-orders",
+                icon: ShoppingCart,
                 roles: ["admin", "manager"],
+            },
+            {
+                label: "Purchase Requests",
+                href: "/purchasing/purchase-requests",
+                icon: ShoppingCart,
+                roles: ["admin", "staff"],
             },
         ],
     },
@@ -95,7 +119,7 @@ const sidebarSections = [
         title: "Administration",
         items: [
             {
-                label: "Users",
+                label: "User Management",
                 href: "/users",
                 icon: Users,
                 roles: ["admin"],

@@ -19,7 +19,7 @@ class RawMaterial extends Model
     {
         return $this->belongsTo(Unit::class, 'unit_id');
     }
-    
+
     public function category()
     {
         return $this->belongsTo(MaterialCategory::class, 'material_category_id');

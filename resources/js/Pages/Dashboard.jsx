@@ -30,7 +30,7 @@ export default function Dashboard() {
               </p>
 
               <h1 className="mt-1 text-xl font-bold text-white">
-                ERP Tekstil System
+                ERP PT. Indotaichen Textile Industry
               </h1>
 
               <div className="mt-3 flex items-center gap-2">
